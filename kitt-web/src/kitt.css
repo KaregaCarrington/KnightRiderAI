@@ -1,0 +1,153 @@
+body {
+  font-family: Arial, Helvetica;
+  font-weight:bold;
+  font-size: 48px;
+  text-align: center;
+  background-color:black;
+  padding: 5%;
+  max-width:700px;
+  margin: 0 auto;
+  height: 50%;
+}
+
+a {
+  text-decoration:none;
+  color:#000;
+  display:inline-block;
+  box-shadow: inset 0px 0px 15px black;
+  opacity: .85;
+}
+
+a:hover {  opacity: 1;
+  
+}
+
+
+header {
+  width: 40%;
+  display:block;
+  float:left;
+  background: linear-gradient(to right, rgba(125,126,125,0.05) 0%,rgba(14,14,14,0.05) 46%,rgba(125,126,125,0.05) 100%);
+  min-height: 450px;
+  padding-top: 2%;
+}
+
+
+.kitt {
+  margin: 0 15%;
+  width: 70%;
+  float: left;
+  background-color: gray;
+  min-height: 250px;
+  background: radial-gradient(ellipse at center, rgba(255,48,25,1) 0%,rgba(207,4,4,.85) 100%);
+
+ 
+  background-size: 100% 8%;
+  box-shadow: inset 1px 1px 20px black;
+  position:relative;
+}
+
+.unkitt {
+  margin: 0 5%;
+  width: 23%;
+  float: left;
+  background-color: gray;
+  min-height: 250px;
+  background: radial-gradient(ellipse at center, rgba(255,48,25,1) 0%,rgba(207,4,4,.85) 100%);
+  filter: brightness(1.5);
+ 
+  background-size: 100% 8%;
+  box-shadow: inset 1px 1px 20px black;
+  position:relative;
+}
+
+img {
+  overflow: hidden;
+  width: 70%;
+  height: 250px;
+}
+
+.bottom {
+  margin-top: 20px;
+  max-height: 50%;
+}
+
+section {
+  width: 25%;
+  display:block;
+  float:left;
+  background-color: #000;
+  height:100%;
+  padding-top: 15%;
+  box-shadow: inset 2px 7px 10px rgba(125,126,125,0.05);
+  
+background: linear-gradient(to bottom, rgba(125,126,125,0.05) 0%,rgba(14,14,14,0.05) 100%);
+}
+
+
+section a {
+  background-color: yellow;
+  width:50%;
+  border: 2px solid black;
+  border-radius: 30px;
+  margin-bottom: 35px;
+  padding:10px;
+  height: 5%;
+  font-size: 40px;
+}
+section a:nth-child(3),
+section a:nth-child(4){
+  background-color: red;
+}
+
+button#one {
+  background-color: red;
+  width:65%;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin-bottom: 0px;
+  padding:5px 35px 5px 35px;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+  box-shadow: inset 1px 1px 20px black;
+}
+
+button#two {
+  background-color: #D9D749;
+  width:65%;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  padding:5px 35px 5px 35px;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+  box-shadow: inset 1px 1px 20px black;
+}
+
+button#three {
+  background-color: blue;
+  width:65%;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding:20px 35px;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+  box-shadow: inset 1px 1px 20px black;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+button:focus {
+  outline: 0;
+}
