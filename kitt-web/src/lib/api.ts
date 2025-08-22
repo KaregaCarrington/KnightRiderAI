@@ -1,5 +1,6 @@
 // src/lib/api.ts
 export async function transcribe(audioBlob: Blob): Promise<string> {
+  console.log("Transcribing blob size:", audioBlob.size, "type:", audioBlob.type);
   const form = new FormData();
   form.append("audio", audioBlob, "utterance.webm");
   const r = await fetch("http://localhost:3001/transcribe", { method: "POST", body: form });

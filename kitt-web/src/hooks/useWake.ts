@@ -1,33 +1,43 @@
 // src/hooks/useWake.ts
 import { useEffect, useRef } from "react";
 
-type WakeOpts = { wakeRegex?: RegExp; lang?: string; enabled?: boolean; onWake: () => void; };
+type WakeOpts = {
+  onWake: () => void;
+  wakeRegex?: RegExp;
+  lang?: string;
+  enabled: boolean;
+};
 
 export function useWake({
   onWake,
   wakeRegex = /\bhey kitt\b|\bhey kit\b|\byo kitt\b/i,
   lang = "en-US",
-  enabled = false,
+  enabled,
 }: WakeOpts) {
-  const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
   const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!enabled || !SpeechRecognition) {
-      console.warn("SpeechRecognition not supported or disabled");
+    if (!enabled) return;
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      console.warn("SpeechRecognition not supported in this browser");
       return;
     }
 
     const recognition = new SpeechRecognition();
     recognitionRef.current = recognition;
 
-    recognition.continuous = true;
+    recognition.continuous = false; // single phrase
     recognition.interimResults = true;
     recognition.lang = lang;
 
     recognition.onresult = (ev: any) => {
       let text = "";
-      for (let i = ev.resultIndex; i < ev.results.length; ++i) {
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
         text += ev.results[i][0].transcript;
       }
 
@@ -39,26 +49,38 @@ export function useWake({
       }
     };
 
+    recognition.onerror = (err: any) => {
+      console.warn("[Wake Detection] Error:", err.error);
+    };
+
     recognition.onend = () => {
+      // Don’t auto-restart to avoid Chrome start/stop conflicts
+      console.log("[Wake Detection] Listening ended. Say 'SPEAK' to retry.");
+    };
+
+    // Only start listening after a user gesture
+    const startRecognition = () => {
       try {
-        recognition.start(); // restart on end
-      } catch {
-        console.warn("SpeechRecognition failed to restart");
+        recognition.start();
+        console.log("[Wake Detection] Started listening (user gesture required)");
+      } catch (err) {
+        console.warn(
+          "[Wake Detection] Cannot start recognition, user gesture required",
+          err
+        );
       }
     };
 
-    try {
-      recognition.start();
-      console.log("[Wake Detection] Started listening");
-    } catch {
-      console.warn("SpeechRecognition failed to start");
-    }
+    recognitionRef.current.startListening = startRecognition;
 
     return () => {
       try {
         recognition.stop();
-        console.log("[Wake Detection] Stopped");
       } catch {}
     };
-  }, [enabled, lang, onWake, wakeRegex]);
+  }, [enabled, lang, wakeRegex, onWake]);
+
+  return {
+    startListening: () => recognitionRef.current?.startListening?.(),
+  };
 }
